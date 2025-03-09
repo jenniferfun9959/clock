@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Vue Clock</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        
+        <div id="clock">
+            <p class="date">{{ date }}</p>
+            <br>
+            <p class="time">{{ time }}</p>
+            <br>
+            <p class="text">僕は今人間です、今日も明日もその次の日も、認めるのは そのくらいでいい。</p>
+        </div>
+    
+        <script>
+        new Vue({
+            el: '#clock',
+            data() {
+                return {
+                    week: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
+                    now: new Date()
+                };
+            },
+            computed: {
+                time() {
+                    return this.formatTime(this.now);
+                },
+                date() {
+                    return this.formatDate(this.now);
+                }
+            },
+            mounted() {
+                this.updateTime();
+                setInterval(this.updateTime, 1000);
+            },
+            methods: {
+                updateTime() {
+                    this.now = new Date();
+                },
+                formatTime(date) {
+                    return this.zeroPadding(date.getHours(), 2) + ':' +
+                           this.zeroPadding(date.getMinutes(), 2) + ':' +
+                           this.zeroPadding(date.getSeconds(), 2);
+                },
+                formatDate(date) {
+                    return this.zeroPadding(date.getFullYear(), 4) + '-' +
+                           this.zeroPadding(date.getMonth() + 1, 2) + '-' +
+                           this.zeroPadding(date.getDate(), 2) + ' ' +
+                           this.week[date.getDay()];
+                },
+                zeroPadding(num, digit) {
+                    return String(num).padStart(digit, '0');
+                }
+            }
+        });
+        </script>
+        
+        
+    </body>
+</html>
+    
